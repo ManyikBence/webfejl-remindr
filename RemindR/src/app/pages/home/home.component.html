@@ -1,1 +1,44 @@
-<p>home works!</p>
+<div class="container">
+  <select #chosenSubscription (change)="reload(chosenSubscription.selectedIndex)">
+    @for (Sub of Subscriptions; track $index) {
+      <option value="{{$index}}">{{Sub.id}}</option>
+    }
+  </select>
+
+  <div class="content">
+  <h2>Előfizetések:</h2>
+
+  <div class="picture"><img src="{{Subscriptions[selectedIndex].picture}}" alt="Netflix"></div>
+
+  <table class="stats_table">
+    <tr>
+      <td>Név</td>
+      <td>{{Subscriptions[selectedIndex].name}}</td>
+    </tr>
+    <tr>
+      <td>Lejárati dátum</td>
+      <td>{{Subscriptions[selectedIndex].endDate}}</td>
+    </tr>
+    <tr>
+      <td>Ismétlődő</td>
+      <td>
+        @if (Subscriptions[selectedIndex].repetitive){
+        Igen
+      } @else {
+          Nem
+        }
+      </td>
+    </tr>
+    <tr>
+      <td>Ügyintézés</td>
+      <td>
+        @if (Subscriptions[selectedIndex].online){
+          Online
+        } @else {
+          Személyes
+        }
+      </td>
+    </tr>
+  </table>
+  </div>
+</div>

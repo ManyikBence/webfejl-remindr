@@ -1,0 +1,28 @@
+.container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  text-align: center;
+}
+
+.content{
+  border: 1px solid #000000;
+  background-color: #f1f1f1;
+}
+
+.picture img{
+  height: 15rem;
+  margin: 0 5rem;
+}
+
+.stats_table {
+  margin: 20px auto;
+  border-collapse: collapse;
+}
+
+.stats_table td {
+  padding: 10px 50px;
+  border: 1px solid #959595;
+}

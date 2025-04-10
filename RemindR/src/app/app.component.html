@@ -1,11 +1,15 @@
 <app-menu (selectedPage)="changePage($event)"> </app-menu>
-@if (page === "home"){
-  <app-home/>
-} @else if (page === "profile"){
-  <app-profile/>
-} @else {
-  <h1>
-    Page not found...
-  </h1>
+@switch (page){
+  @case ("home"){
+    <app-home/>
+  }
+  @case ("profile"){
+    <app-profile/>
+  }
+  @default {
+    <h1>
+      Page not found...
+    </h1>
+  }
 }
 <router-outlet />
