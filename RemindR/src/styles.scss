@@ -1,1 +1,17 @@
-/* You can add global styles to this file, and also import other style files */
+/* Világos téma */
+.light-mode {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+/* Sötét téma */
+.dark-mode {
+  background-color: #454545;
+  color: #ffffff;
+  .stats_table td{
+  }
+  .content{
+    border: 1px solid #ffffff !important;
+    background-color: #393939 !important;
+  }
+}
