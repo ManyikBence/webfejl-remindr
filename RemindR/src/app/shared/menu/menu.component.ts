@@ -9,7 +9,6 @@ import {MatIcon} from '@angular/material/icon';
   imports: [
     RouterLink,
     MatNavList,
-    MatIcon,
     MatListItem,
     RouterLinkActive
   ],
