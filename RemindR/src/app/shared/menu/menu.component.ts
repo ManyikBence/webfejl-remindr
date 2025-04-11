@@ -2,7 +2,6 @@ import {Component, Input} from '@angular/core';
 import {RouterLink, RouterLinkActive} from '@angular/router';
 import {MatSidenav} from '@angular/material/sidenav';
 import {MatListItem, MatNavList} from '@angular/material/list';
-import {MatIcon} from '@angular/material/icon';
 
 @Component({
   selector: 'app-menu',
