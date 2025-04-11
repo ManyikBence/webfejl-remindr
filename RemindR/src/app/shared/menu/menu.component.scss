@@ -1,12 +1,11 @@
-.menu{
-  display: block;
-  margin: 20px auto;
-  padding: 10px;
-  font-size: 20px;
-  width: 200px;
-  text-align: center;
-  border-radius: 10px;
-  border: 2px solid #333;
-  background-color: #f8f8f8;
-  cursor: pointer;
+
+
+.active-list-item {
+  background-color: darkcyan;
+  color: white;
+  font-weight: bold;
+}
+
+mat-nav-list {
+  min-width: 200px;
 }

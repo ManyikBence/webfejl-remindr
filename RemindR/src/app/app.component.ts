@@ -1,22 +1,21 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import {HomeComponent} from './pages/home/home.component';
+import {RouterLink, RouterOutlet} from '@angular/router';
 import {MenuComponent} from './shared/menu/menu.component';
-import {ProfileComponent} from './pages/profile/profile.component';
-import {ThemeComponent} from './shared/theme/theme.component';
+import {MatSidenav, MatSidenavModule} from '@angular/material/sidenav';
+import {MatToolbar} from '@angular/material/toolbar';
+import {MatButton} from '@angular/material/button';
+import {MatIcon} from '@angular/material/icon';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, HomeComponent, MenuComponent, ProfileComponent, ThemeComponent],
+  imports: [RouterOutlet, MenuComponent, MatSidenav, MatSidenavModule,MatToolbar, MatIcon, RouterLink, MatButton],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
   title = 'RemindR';
 
-  page = "home"
-
-  changePage(selectedPage:any) {
-    this.page = selectedPage;
+  onToggleSidenav(sidenav: MatSidenav){
+    sidenav.toggle();
   }
 }

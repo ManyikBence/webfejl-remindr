@@ -1,0 +1,53 @@
+nav {
+  display: flex;
+  justify-content: flex-end;
+  width: 50%;
+}
+
+ul {
+  display: flex;
+  list-style: none;
+  gap: 30px;
+}
+
+a {
+  text-decoration: none;
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+mat-sidenav-container {
+  height: 100%;
+}
+
+mat-toolbar{
+  background-color: #515151;
+  color: cyan;
+  mat-icon {
+    color: white;
+  }
+}
+
+mat-sidenav {
+  border-radius: 0;
+}
+
+.menu-toggle-button {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .menu-toggle-button {
+    display: block;
+  }
+
+  nav ul {
+    display: none;
+  }
+}
+
+.menuButtom{
+  display: flex;
+  justify-content: center;
+}

@@ -1,16 +1,25 @@
-<app-menu (selectedPage)="changePage($event)"> </app-menu>
-<app-theme/>
-@switch (page){
-  @case ("home"){
-    <app-home/>
-  }
-  @case ("profile"){
-    <app-profile/>
-  }
-  @default {
-    <h1>
-      Page not found...
-    </h1>
-  }
-}
-<router-outlet />
+<mat-sidenav-container>
+  <mat-sidenav #sidenav>
+    <app-menu [sidenav]="sidenav"></app-menu>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar>
+      <button
+        mat-button
+        (click)="onToggleSidenav(sidenav)"
+        class="menu-toggle-button">
+        <div class="menuButtom">
+          <mat-icon>menu</mat-icon>
+        </div>
+      </button>
+      <div>RemindR</div>
+      <nav>
+        <ul>
+          <li><a routerLink="/home">Home</a></li>
+          <li><a routerLink="/profile">Profile</a></li>
+        </ul>
+      </nav>
+    </mat-toolbar>
+    <router-outlet />
+  </mat-sidenav-content>
+</mat-sidenav-container>
