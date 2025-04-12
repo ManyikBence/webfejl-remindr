@@ -15,6 +15,11 @@ a {
   color: white;
   font-size: 20px;
   font-weight: bold;
+  transition: 0.5s;
+}
+
+a:hover {
+  color: cyan;
 }
 
 mat-sidenav-container {
