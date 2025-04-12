@@ -10,6 +10,7 @@ mat-card-title {
 
 table {
   margin-bottom: 16px;
+  border: 0.1px solid cyan;
 }
 
 .mobile-card {
@@ -35,4 +36,9 @@ table {
   display: flex;
   margin: 16px;
   justify-content: center;
+}
+
+.title {
+  font-size: 25px;
+  color: lightcyan;
 }

@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, HostListener, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, HostListener, Input, ViewChild} from '@angular/core';
 import {MatCard, MatCardContent, MatCardHeader, MatCardTitle} from '@angular/material/card';
 import {FormsModule} from '@angular/forms';
 import {MatButton} from '@angular/material/button';
@@ -12,7 +12,7 @@ import {
   MatTableDataSource
 } from '@angular/material/table';
 import {MatPaginator} from '@angular/material/paginator';
-import {NgForOf, NgIf} from '@angular/common';
+import {Router} from '@angular/router';
 
 export interface Subscriptions {
   id: number;
@@ -40,18 +40,18 @@ export interface Subscriptions {
     MatHeaderCell,
     MatColumnDef,
     MatCellDef,
-    NgIf,
     MatHeaderRowDef,
     MatRowDef,
-    MatHeaderCellDef,
-    NgForOf
-  ],
+    MatHeaderCellDef],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
 export class HomeComponent implements AfterViewInit{
 
-  title = "Előfizetések";
+  constructor(private router: Router) {}
+
+  @Input() title = "Előfizetések";
+
   isMobileView = false;
 
   subscriptions: Subscriptions[] = [
@@ -169,10 +169,10 @@ export class HomeComponent implements AfterViewInit{
   }
 
   checkScreenSize() {
-    this.isMobileView = window.innerWidth < 560;
+    this.isMobileView = window.innerWidth < 650;
   }
 
   addSubscription() {
-    // új előfizetés logika
+    this.router.navigate(['/homee']);
   }
 }
