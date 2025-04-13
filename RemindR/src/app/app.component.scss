@@ -1,7 +1,7 @@
 nav {
   display: flex;
   justify-content: flex-end;
-  width: 50%;
+  width: 49%;
 }
 
 ul {
@@ -50,9 +50,17 @@ mat-sidenav {
   nav ul {
     display: none;
   }
+  .logout {
+    display: none;
+  }
 }
 
 .menuButtom{
   display: flex;
   justify-content: center;
+}
+
+.logout{
+  position: absolute;
+  right: 20px;
 }
