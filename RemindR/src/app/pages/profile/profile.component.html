@@ -7,10 +7,10 @@
         <p>{{ user.email }}</p>
       }
       @if (isEditing){
-        <mat-form-field appearance="fill">
+        <mat-form-field appearance="fill" class="mobil">
           <input matInput [(ngModel)]="user.name" placeholder="Név">
         </mat-form-field>
-        <mat-form-field appearance="fill">
+        <mat-form-field appearance="fill" class="mobil">
           <input matInput [(ngModel)]="user.email" placeholder="Email">
         </mat-form-field>
       }
