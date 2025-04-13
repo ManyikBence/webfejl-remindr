@@ -1,48 +1,51 @@
 import { Component } from '@angular/core';
-import {MatFormField, MatInput, MatLabel, MatSuffix} from '@angular/material/input';
-import {MatIcon} from '@angular/material/icon';
-import {MatProgressSpinner} from '@angular/material/progress-spinner';
-import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
-import {MatButton} from '@angular/material/button';
-import {Router, RouterLink} from '@angular/router';
+import { FormGroup, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router, RouterLink } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 export interface User {
   username: string;
   password: string;
+
 }
 
 @Component({
   selector: 'app-signup',
+  standalone: true,
   imports: [
-    MatFormField,
-    MatInput,
-    MatSuffix,
-    MatIcon,
-    MatLabel,
-    MatProgressSpinner,
+    CommonModule,
     ReactiveFormsModule,
-    MatButton,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatIconModule,
+    MatProgressSpinnerModule,
     RouterLink
   ],
   templateUrl: './signup.component.html',
   styleUrl: './signup.component.scss'
 })
 export class SignupComponent {
-  constructor(private router: Router) {}
-
   signUpForm = new FormGroup({
     username: new FormControl('', [Validators.required, Validators.minLength(4)]),
     password: new FormControl('', [Validators.required, Validators.minLength(4)]),
     rePassword: new FormControl('', [Validators.required])
-  })
+  });
 
   isLoading = false;
   showForm = true;
   signupError = '';
 
+  constructor(private router: Router) {}
+
   signup(): void {
     if (this.signUpForm.invalid) {
-      this.signupError = 'A regisztráció sikertelen.';
+      this.signupError = 'Sikertelen regisztráció.';
       return;
     }
 
@@ -50,6 +53,7 @@ export class SignupComponent {
     const rePassword = this.signUpForm.get('rePassword');
 
     if (password?.value !== rePassword?.value) {
+      this.signupError = 'Nem egyezik a két jelszó.';
       return;
     }
 
@@ -58,11 +62,14 @@ export class SignupComponent {
 
     const newUser: User = {
       username: this.signUpForm.value.username || '',
-      password: this.signUpForm.value.password || ''
+      password: this.signUpForm.value.password || '',
     };
+
+    console.log('New user:', newUser);
+    console.log('Form value:', this.signUpForm.value);
 
     setTimeout(() => {
       this.router.navigateByUrl('/home');
-    }, 2000);
+    }, 1500);
   }
 }
