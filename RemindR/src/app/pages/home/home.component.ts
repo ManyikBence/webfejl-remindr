@@ -13,6 +13,9 @@ import {
 } from '@angular/material/table';
 import {MatPaginator} from '@angular/material/paginator';
 import {Router} from '@angular/router';
+import {MatDialog, MatDialogModule} from '@angular/material/dialog';
+import { SubscriptionService} from '../../shared/services/subscription.service';
+import {AddSubscriptionDialogComponent} from '../../shared/dialogs/add-subscription/add-subscription.component';
 
 export interface Subscriptions {
   id: number;
@@ -27,6 +30,7 @@ export interface Subscriptions {
   selector: 'app-home',
   imports: [
     MatCard,
+    MatDialogModule,
     MatCardHeader,
     MatCardContent,
     FormsModule,
@@ -48,110 +52,17 @@ export interface Subscriptions {
 })
 export class HomeComponent implements AfterViewInit{
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private subscriptionService: SubscriptionService,
+    private dialog: MatDialog
+  ) {}
 
   @Input() title = "Előfizetések";
 
   isMobileView = false;
 
-  subscriptions: Subscriptions[] = [
-    {
-      id: 1,
-      picture: 'assets/images/netflix.png',
-      name: 'Netflix',
-      online: true,
-      endDate: '2025.06.12',
-      repetitive: true,
-    },
-    {
-      id: 2,
-      picture: 'assets/images/profilpic.jpg',
-      name: 'Személyi igazolvány',
-      online: false,
-      endDate: '2028.01.10',
-      repetitive: false,
-    },
-    {
-      id: 3,
-      picture: 'assets/images/mav.jpg',
-      name: 'Országbérlet',
-      online: true,
-      endDate: '2025.04.20',
-      repetitive: true,
-    },
-    {
-      id: 4,
-      picture: 'assets/images/hbo.jpg',
-      name: 'HBO',
-      online: true,
-      endDate: '2025.05.02',
-      repetitive: true,
-    },
-    {
-      id: 1,
-      picture: 'assets/images/netflix.png',
-      name: 'Netflix',
-      online: true,
-      endDate: '2025.06.12',
-      repetitive: true,
-    },
-    {
-      id: 2,
-      picture: 'assets/images/profilpic.jpg',
-      name: 'Személyi igazolvány',
-      online: false,
-      endDate: '2028.01.10',
-      repetitive: false,
-    },
-    {
-      id: 3,
-      picture: 'assets/images/mav.jpg',
-      name: 'Országbérlet',
-      online: true,
-      endDate: '2025.04.20',
-      repetitive: true,
-    },
-    {
-      id: 4,
-      picture: 'assets/images/hbo.jpg',
-      name: 'HBO',
-      online: true,
-      endDate: '2025.05.02',
-      repetitive: true,
-    },
-    {
-      id: 1,
-      picture: 'assets/images/netflix.png',
-      name: 'Netflix',
-      online: true,
-      endDate: '2025.06.12',
-      repetitive: true,
-    },
-    {
-      id: 2,
-      picture: 'assets/images/profilpic.jpg',
-      name: 'Személyi igazolvány',
-      online: false,
-      endDate: '2028.01.10',
-      repetitive: false,
-    },
-    {
-      id: 3,
-      picture: 'assets/images/mav.jpg',
-      name: 'Országbérlet',
-      online: true,
-      endDate: '2025.04.20',
-      repetitive: true,
-    },
-    {
-      id: 4,
-      picture: 'assets/images/hbo.jpg',
-      name: 'HBO',
-      online: true,
-      endDate: '2025.05.02',
-      repetitive: true,
-    }
-  ]
+  subscriptions: Subscriptions[] = [];
 
   displayedColumns: string[] = ['picture', 'name', 'online', 'endDate', 'repetitive'];
   dataSource = new MatTableDataSource<Subscriptions>(this.subscriptions);
@@ -161,6 +72,11 @@ export class HomeComponent implements AfterViewInit{
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.checkScreenSize();
+
+    this.subscriptionService.getAllSubscriptions().subscribe(subs => {
+      this.subscriptions = subs;
+      this.dataSource.data = subs;
+    });
   }
 
   @HostListener('window:resize')
@@ -173,6 +89,17 @@ export class HomeComponent implements AfterViewInit{
   }
 
   addSubscription() {
-    this.router.navigate(['/homee']);
+    const dialogRef = this.dialog.open(AddSubscriptionDialogComponent);
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.subscriptionService.addSubscription(result).then(() => {
+          this.subscriptionService.getAllSubscriptions().subscribe(subs => {
+            this.subscriptions = subs;
+            this.dataSource.data = subs;
+          });
+        });
+      }
+    });
   }
 }
