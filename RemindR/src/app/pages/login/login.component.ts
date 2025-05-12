@@ -2,9 +2,11 @@ import { Component } from '@angular/core';
 import {MatProgressSpinner} from '@angular/material/progress-spinner';
 import {MatFormField, MatInput, MatLabel, MatSuffix} from '@angular/material/input';
 import {MatButton} from '@angular/material/button';
-import {FormControl, FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {RouterLink} from '@angular/router';
+import {FormControl, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
+import {Router, RouterLink} from '@angular/router';
 import {MatIcon} from '@angular/material/icon';
+import {AuthService} from '../../shared/services/auth.service';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -25,32 +27,64 @@ import {MatIcon} from '@angular/material/icon';
 })
 export class LoginComponent {
 
-  username = new FormControl('');
-  password = new FormControl('');
+  email = new FormControl('', [Validators.required, Validators.email]);
+  password = new FormControl('', [Validators.required, Validators.minLength(6)]);
   isLoading: boolean = false;
   loginError: string = '';
   showLoginForm: boolean = true;
+  authSubscription?: Subscription;
 
-  constructor() {}
+  constructor(
+    private authService: AuthService,
+    private router: Router
+  )
+  {}
 
   login() {
+    if (this.email.invalid) {
+      this.loginError = 'Helyes email-t adj meg.';
+      return;
+    }
+
+    if (this.password.invalid) {
+      this.loginError = 'Jelszó minimum 6 karakter hosszú legyen.';
+      return;
+    }
+
+    const emailValue = this.email.value || '';
+    const passwordValue = this.password.value || '';
+
+    this.isLoading = true;
+    this.showLoginForm = false;
     this.loginError = '';
 
-    if (this.username.value === 'test' && this.password.value === 'test') {
-      this.isLoading = true;
-      this.showLoginForm = false;
+    this.authService.signIn(emailValue, passwordValue)
+      .then(userCredential => {
+        this.authService.updateLoginStatus(true);
+        this.router.navigateByUrl('/home');
+      })
+      .catch(error => {
+        console.error('Login error:', error);
+        this.isLoading = false;
+        this.showLoginForm = true;
 
-      localStorage.setItem('isLoggedIn', 'true');
+        switch(error.code) {
+          case 'auth/user-not-found':
+            this.loginError = 'Nem létező email';
+            break;
+          case 'auth/wrong-password':
+            this.loginError = 'Helytelen jelszó';
+            break;
+          case 'auth/invalid-credential':
+            this.loginError = 'Helytelen email vagy jelszó';
+            break;
+          default:
+            this.loginError = 'Hiba, próbáld újra';
+        }
+      });
+  }
 
-      setTimeout(() => {
-        window.location.href = '/home';
-      }, 1500);
-    }
-    else if (this.username.value === '' || this.password.value === '') {
-      this.loginError = 'Nincs kitöltve minden adat.';
-    }
-    else {
-      this.loginError = 'Helytelen felhasználónév vagy jelszó.';
-    }
+  ngOnDestroy() {
+    this.authSubscription?.unsubscribe();
   }
 }

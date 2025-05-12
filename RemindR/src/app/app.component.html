@@ -20,7 +20,10 @@
             <li><a routerLink="/profile">Profile</a></li>
           </ul>
         </nav>
-        <div class="logout"><a routerLink="/login">Kijelentkezés</a></div>
+        <div class="logout">
+          <a (click)="logout()" style="cursor: pointer;">Kijelentkezés</a>
+        </div>
+
       </mat-toolbar>
     }
     <router-outlet />
