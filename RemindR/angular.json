@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "RemindR": {
+    "remindr": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -66,10 +66,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "RemindR:build:production"
+              "buildTarget": "remindr:build:production"
             },
             "development": {
-              "buildTarget": "RemindR:build:development"
+              "buildTarget": "remindr:build:development"
             }
           },
           "defaultConfiguration": "development"
