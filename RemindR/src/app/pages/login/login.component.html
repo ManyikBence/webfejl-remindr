@@ -11,9 +11,9 @@
   @if (showLoginForm) {
     <form (ngSubmit)="login()" class="login-form">
       <mat-form-field appearance="outline">
-        <mat-label>Felhasználónév</mat-label>
-        <input matInput type="username" [formControl]="email">
-        <mat-icon matSuffix>person</mat-icon>
+        <mat-label>E-mail</mat-label>
+        <input matInput type="email" [formControl]="email">
+        <mat-icon matSuffix>email</mat-icon>
       </mat-form-field>
 
       <mat-form-field appearance="outline">

@@ -16,15 +16,8 @@ import {Router} from '@angular/router';
 import {MatDialog, MatDialogModule} from '@angular/material/dialog';
 import { SubscriptionService} from '../../shared/services/subscription.service';
 import {AddSubscriptionDialogComponent} from '../../shared/dialogs/add-subscription/add-subscription.component';
+import {Subscriptions} from '../../shared/models/subscription';
 
-export interface Subscriptions {
-  id: number;
-  name: string;
-  online: boolean;
-  endDate: string;
-  repetitive: boolean;
-  picture?: string;
-}
 
 @Component({
   selector: 'app-home',
