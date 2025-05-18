@@ -18,6 +18,7 @@ import {AddSubscriptionDialogComponent} from '../../shared/dialogs/add-subscript
 import {Subscriptions} from '../../shared/models/subscription';
 import {combineLatest, Subscription} from 'rxjs';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import {MatTab, MatTabGroup} from '@angular/material/tabs';
 
 
 @Component({
@@ -31,7 +32,6 @@ import {MatSnackBar} from '@angular/material/snack-bar';
     MatButton,
     MatTable,
     MatCardTitle,
-    MatPaginator,
     MatRow,
     MatHeaderRow,
     MatCell,
@@ -40,12 +40,17 @@ import {MatSnackBar} from '@angular/material/snack-bar';
     MatCellDef,
     MatHeaderRowDef,
     MatRowDef,
-    MatHeaderCellDef],
+    MatHeaderCellDef,
+    MatTabGroup,
+    MatTab
+  ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
 export class HomeComponent implements OnInit, OnDestroy{
   private subscriptions: Subscription[] = [];
+  onlineSubscriptions: Subscriptions[] = [];
+  repetitiveSubscriptions: Subscriptions[] = [];
 
   constructor(
     private subscriptionService: SubscriptionService,
@@ -82,14 +87,20 @@ export class HomeComponent implements OnInit, OnDestroy{
     this.isLoading = true;
 
     const allSubscriptions$ = this.subscriptionService.getAllSubscriptions();
+    const onlineSubscriptions$ = this.subscriptionService.getOnlineSubscriptions();
+    const repetitiveSubscriptions$ = this.subscriptionService.getRepetitiveSubscriptions();
 
     const combined$ = combineLatest([
-      allSubscriptions$
+      allSubscriptions$,
+      onlineSubscriptions$,
+      repetitiveSubscriptions$
     ]);
 
     const subscription = combined$.subscribe({
-      next: ([allSubscriptions]) => {
+      next: ([allSubscriptions, onlineSubscriptions, repetitiveSubscriptions]) => {
         this.subs = allSubscriptions;
+        this.onlineSubscriptions = onlineSubscriptions;
+        this.repetitiveSubscriptions = repetitiveSubscriptions;
         this.isLoading = false;
       },
       error: () => {
@@ -123,6 +134,24 @@ export class HomeComponent implements OnInit, OnDestroy{
         });
       }
     });
+  }
+
+  deleteSubscription(subscriptionId: string): void {
+    if (confirm('Biztosan törölni akarod?')) {
+      this.isLoading = true;
+      this.subscriptionService.deleteSubscription(subscriptionId)
+        .then(() => {
+          this.loadAllSubscriptionData();
+          this.showNotification('Sikeres törlés.', 'success');
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          this.showNotification('Sikertelen', 'error');
+        })
+        .finally(() => {
+          this.isLoading = false;
+        });
+    }
   }
 
   private showNotification(message: string, type: 'success' | 'error' | 'warning'): void {

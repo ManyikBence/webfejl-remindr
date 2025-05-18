@@ -198,5 +198,16 @@ export class SubscriptionService {
     }
   }
 
-  // ÖSSZETETT LEKÉRDEZÉSEK valódi Firebase query-kkel
+  // ÖSSZETETT LEKÉRDEZÉSEK
+  getOnlineSubscriptions(): Observable<Subscriptions[]> {
+    return this.getAllSubscriptions().pipe(
+      map(subs => subs.filter(sub => sub.online))
+    );
+  }
+
+  getRepetitiveSubscriptions(): Observable<Subscriptions[]> {
+    return this.getAllSubscriptions().pipe(
+      map(subs => subs.filter(sub => sub.repetitive))
+    );
+  }
 }
