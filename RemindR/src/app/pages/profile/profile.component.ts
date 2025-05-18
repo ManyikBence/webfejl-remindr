@@ -1,39 +1,69 @@
-import { Component } from '@angular/core';
-import {MatCard} from '@angular/material/card';
-import {MatDivider} from '@angular/material/list';
-import {MatFormField, MatInput} from '@angular/material/input';
-import {FormsModule} from '@angular/forms';
-import {MatButton} from '@angular/material/button';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { Subscription } from 'rxjs';
+import { UserService } from '../../shared/services/user.service';
+import { User } from '../../shared/models/user';
+import { Subscriptions } from '../../shared/models/subscription';
 
 @Component({
   selector: 'app-profile',
-  templateUrl: './profile.component.html',
+  standalone: true,
   imports: [
-    MatCard,
-    MatDivider,
-    MatFormField,
-    MatInput,
-    FormsModule,
-    MatButton
+    CommonModule,
+    MatCardModule,
+    MatIconModule,
+    MatProgressBarModule
   ],
-  styleUrls: ['./profile.component.scss']
+  templateUrl: './profile.component.html',
+  styleUrl: './profile.component.scss'
 })
-export class ProfileComponent {
-  isEditing = false;
-
-  user = {
-    name: 'Kovács Péter',
-    email: 'peter.kovacs@gmail.com',
-    about: 'Szenvedélyes fejlesztő és sorozatfüggő.',
-    registered: '2023.04.12',
-    avatar: 'KP'
+export class ProfileComponent implements OnInit, OnDestroy {
+  user: User | null = null;
+  subscriptions: Subscriptions[] = [];
+  stats = {
+    total: 0
   };
+  isLoading = true;
 
-  toggleEdit() {
-    this.isEditing = !this.isEditing;
+  private subscription: Subscription | null = null;
+
+  constructor(private userService: UserService) {}
+
+  ngOnInit(): void {
+    this.loadUserProfile();
   }
 
-  saveChanges() {
-    this.isEditing = false;
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
+
+  loadUserProfile(): void {
+    this.isLoading = true;
+    this.subscription = this.userService.getUserProfile().subscribe({
+      next: (data) => {
+        this.user = data.user;
+        this.subscriptions = data.subscriptions;
+        this.stats = data.stats;
+        this.isLoading = false;
+      },
+      error: (error) => {
+        console.error('Hiba a felhasználói profil betöltésekor:', error);
+        this.isLoading = false;
+      }
+    });
+  }
+
+  getUserInitials(): string {
+    if (!this.user || !this.user.name) return '?';
+
+    const firstInitial = this.user.name.firstname ? this.user.name.firstname.charAt(0).toUpperCase() : '';
+    const lastInitial = this.user.name.lastname ? this.user.name.lastname.charAt(0).toUpperCase() : '';
+
+    return firstInitial + (lastInitial ? lastInitial : '');
   }
 }

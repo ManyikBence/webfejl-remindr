@@ -1,5 +1,3 @@
-import {Subscriptions} from './subscription';
-
 export interface User {
   id: string;
   name: {
@@ -7,5 +5,5 @@ export interface User {
     lastname: string;
   };
   email: string;
-  subscriptions: Subscriptions[];
+  subscriptions: string[];
 }

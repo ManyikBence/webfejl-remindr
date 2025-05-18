@@ -42,3 +42,26 @@ table {
   font-size: 25px;
   color: lightcyan;
 }
+
+.initial {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #595959;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  color: #00FFD6BF;
+}
+.initial-mobil {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background-color: #595959;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  color: #00FFD6BF;
+}

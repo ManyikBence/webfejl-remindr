@@ -12,12 +12,14 @@
         </div>
         <div class="mobile-card">
 
-          @for (sub of subscriptions; track $index){
+          @for (sub of subs; track $index){
 
             <mat-card>
               <mat-card-header>
                 <div class="avatar">
-                  <img src="{{ sub.picture }}" height="60"  alt=""/>
+                  <div class="initial-mobil">
+                    {{sub.name.charAt(0).toUpperCase()}}
+                  </div>
                   <mat-card-title>{{ sub.name }}</mat-card-title>
                 </div>
               </mat-card-header>
@@ -40,7 +42,9 @@
           <ng-container matColumnDef="picture">
             <th mat-header-cell *matHeaderCellDef> </th>
             <td mat-cell *matCellDef="let element">
-              <img src="{{ element.picture }}" alt="{{ element.name }}" height="60" />
+              <div class="initial">
+                {{element.name.charAt(0).toUpperCase()}}
+              </div>
             </td>
           </ng-container>
 

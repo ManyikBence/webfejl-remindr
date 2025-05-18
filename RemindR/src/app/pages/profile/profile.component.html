@@ -1,51 +1,46 @@
-<mat-card class="profile-card">
-  <div class="profile-header">
-    <h1>{{user.avatar}}</h1>
-    <div>
-      @if (!isEditing){
-        <h2>{{ user.name }}</h2>
-        <p>{{ user.email }}</p>
+<div class="profile-container">
+  <mat-card class="box">
+    <mat-card-header>
+      <mat-card-title>Profil</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      @if (isLoading) {
+        <div class="loading-container">
+          <p>Loading profile data...</p>
+        </div>
+      } @else if (user) {
+        <div class="profile-info">
+          <div class="avatar-container">
+            <div class="avatar mat-elevation-z2">
+              {{ getUserInitials() }}
+            </div>
+          </div>
+          <div class="user-details">
+            <h3 class="user-name">{{ user.name.firstname }} {{ user.name.lastname }}</h3>
+            <div class="user-email">
+              <mat-icon>email</mat-icon>
+              <span>{{ user.email }}</span>
+            </div>
+          </div>
+        </div>
+        <div class="stats-section">
+          <h2>Statisztika</h2>
+          <div class="stats-cards">
+            <mat-card class="stat-card">
+              <mat-card-header>
+                <mat-icon mat-card-avatar>assessment</mat-icon>
+                <mat-card-subtitle>Összes előfizetés</mat-card-subtitle>
+                <mat-card-title>{{ stats.total }}</mat-card-title>
+              </mat-card-header>
+            </mat-card>
+          </div>
+        </div>
+      } @else {
+        <div class="empty-state">
+          <mat-icon>person_off</mat-icon>
+          <p>No user profile found. Please log in.</p>
+        </div>
       }
-      @if (isEditing){
-        <mat-form-field appearance="fill" class="mobil">
-          <input matInput [(ngModel)]="user.name" placeholder="Név">
-        </mat-form-field>
-        <mat-form-field appearance="fill" class="mobil">
-          <input matInput [(ngModel)]="user.email" placeholder="Email">
-        </mat-form-field>
-      }
-    </div>
-  </div>
-
-  <mat-divider></mat-divider>
-
-  <div class="profile-body">
-    <h3>Bemutatkozás</h3>
-    @if (!isEditing){
-      <p>{{ user.about }}</p>
-    }
-    @if (isEditing) {
-      <mat-form-field appearance="fill" class="full-width">
-        <textarea matInput [(ngModel)]="user.about" placeholder="Bemutatkozás"></textarea>
-      </mat-form-field>
-    }
-    <h3>Fiók adatok</h3>
-    <p><strong>Regisztráció dátuma:</strong> {{ user.registered }}</p>
-  </div>
-
-  <div class="button">
-    @if (!isEditing) {
-      <button mat-stroked-button color="primary" (click)="toggleEdit()">
-        Szerkesztés
-      </button>
-    }
-    @if (isEditing) {
-      <button mat-flat-button color="primary" (click)="saveChanges()">
-        Mentés
-      </button>
-      <button mat-button (click)="toggleEdit()">
-        Mégse
-      </button>
-    }
-  </div>
-</mat-card>
+    </mat-card-content>
+  </mat-card>
+</div>

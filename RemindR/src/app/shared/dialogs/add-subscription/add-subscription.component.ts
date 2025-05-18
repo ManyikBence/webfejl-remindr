@@ -10,40 +10,8 @@ import { CommonModule } from '@angular/common';
   selector: 'app-add-subscription-dialog',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, MatInputModule, MatCheckboxModule, MatButtonModule],
-  template: `
-    <h2>Új előfizetés hozzáadása</h2>
-    <form [formGroup]="form" (ngSubmit)="submit()">
-      <mat-form-field appearance="fill" class="full-width">
-        <mat-label>Név</mat-label>
-        <input matInput formControlName="name">
-      </mat-form-field>
-
-      <mat-form-field appearance="fill" class="full-width">
-        <mat-label>Lejárat dátuma</mat-label>
-        <input matInput type="date" formControlName="endDate">
-      </mat-form-field>
-
-      <mat-checkbox formControlName="online">Online előfizetés</mat-checkbox>
-      <br>
-      <mat-checkbox formControlName="repetitive">Ismétlődő</mat-checkbox>
-
-      <div class="actions">
-        <button mat-button type="button" (click)="dialogRef.close()">Mégse</button>
-        <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">Mentés</button>
-      </div>
-    </form>
-  `,
-  styles: [`
-    .full-width {
-      width: 100%;
-    }
-    .actions {
-      margin-top: 20px;
-      display: flex;
-      justify-content: flex-end;
-      gap: 10px;
-    }
-  `]
+  templateUrl: './add-subscription.component.html',
+  styleUrls: ['./add-subscription.component.scss']
 })
 export class AddSubscriptionDialogComponent {
   form: FormGroup;
