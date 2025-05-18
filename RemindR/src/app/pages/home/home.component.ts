@@ -1,7 +1,7 @@
 import {Component, HostListener, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {MatCard, MatCardContent, MatCardHeader, MatCardTitle} from '@angular/material/card';
+import {MatCard, MatCardActions, MatCardContent, MatCardHeader, MatCardTitle} from '@angular/material/card';
 import {FormsModule} from '@angular/forms';
-import {MatButton} from '@angular/material/button';
+import {MatButton, MatIconButton} from '@angular/material/button';
 import {
   MatCell, MatCellDef,
   MatColumnDef,
@@ -19,6 +19,7 @@ import {Subscriptions} from '../../shared/models/subscription';
 import {combineLatest, Subscription} from 'rxjs';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {MatTab, MatTabGroup} from '@angular/material/tabs';
+import {MatIcon} from '@angular/material/icon';
 
 
 @Component({
@@ -42,7 +43,10 @@ import {MatTab, MatTabGroup} from '@angular/material/tabs';
     MatRowDef,
     MatHeaderCellDef,
     MatTabGroup,
-    MatTab
+    MatTab,
+    MatCardActions,
+    MatIconButton,
+    MatIcon
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
@@ -63,7 +67,7 @@ export class HomeComponent implements OnInit, OnDestroy{
   isMobileView = false;
   isLoading = false;
   subs: Subscriptions[] = [];
-  displayedColumns: string[] = ['picture', 'name', 'online', 'endDate', 'repetitive'];
+  displayedColumns: string[] = ['picture', 'name', 'online', 'endDate', 'repetitive', 'delete'];
   dataSource = new MatTableDataSource<Subscriptions>(this.subs);
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;

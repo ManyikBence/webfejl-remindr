@@ -192,7 +192,7 @@ export class SubscriptionService {
       await deleteDoc(subscriptionDocRef);
 
       const updatedSubscriptions = userData.subscriptions.filter(id => id !== subscriptionId);
-      return updateDoc(userDocRef, { tasks: updatedSubscriptions });
+      return updateDoc(userDocRef, { subscriptions: updatedSubscriptions });
     } catch (error) {
       throw error;
     }
